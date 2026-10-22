@@ -250,6 +250,303 @@
         .alert { border-left-color:#e84a8a; } .alert.good { border-left-color:#00b8a9; }
         @media print { nav,.hero,.filter-panel,.action-row,footer,.small-note { display:none !important; } body { background:#fff; } section { padding:18px 3%; break-inside:avoid; } .chart-card,.kpi { box-shadow:none; break-inside:avoid; } .table-scroll { max-height:none; overflow:visible; } }
 
+/* ===== MOBILE EXPERIENCE UPGRADE ===== */
+
+/* Prevent horizontal scrolling on phones */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 110px;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+nav > div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+nav a {
+    margin-left: 0;
+}
+
+.hero {
+    isolation: isolate;
+}
+
+.hero-content {
+    width: 100%;
+}
+
+/* Smooth, subtle shoe motion on desktop */
+.rotating-shoe {
+    will-change: transform;
+    animation-duration: 9s;
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+    .hero {
+        padding: 65px 6%;
+        min-height: 420px;
+    }
+
+    .hero-content {
+        max-width: 75%;
+    }
+
+    .rotating-shoe {
+        width: 48%;
+        right: -4%;
+        opacity: 0.42;
+    }
+
+    section {
+        padding: 55px 6%;
+    }
+}
+
+/* Phones */
+@media (max-width: 650px) {
+    html {
+        scroll-padding-top: 105px;
+    }
+
+    nav {
+        padding: 13px 5%;
+        gap: 8px;
+    }
+
+    nav > div:last-child {
+        width: 100%;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    nav a {
+        font-size: 11px;
+        letter-spacing: 0.2px;
+        padding: 5px 0;
+    }
+
+    .hero {
+        min-height: 0;
+        padding: 45px 6% 52px;
+        align-items: flex-start;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+
+    .eyebrow {
+        font-size: 10px;
+        letter-spacing: 2px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+    }
+
+    h1 {
+        font-size: clamp(34px, 9.5vw, 54px);
+        line-height: 1.04;
+        letter-spacing: -1.5px;
+        margin-bottom: 18px;
+    }
+
+    .hero p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .button {
+        font-size: 12px;
+        padding: 13px 16px;
+        margin-top: 20px;
+        position: relative;
+        z-index: 3;
+    }
+
+    /* Same shoe illustration; subtle background motion */
+    .rotating-shoe {
+        width: 78%;
+        max-width: 390px;
+        right: -25%;
+        top: auto;
+        bottom: -3%;
+        opacity: 0.16;
+        animation: mobileShoeMotion 11s ease-in-out infinite;
+    }
+
+    @keyframes mobileShoeMotion {
+        0%, 100% {
+            transform: translateX(0) rotate(-6deg) scale(0.98);
+        }
+        50% {
+            transform: translateX(-8px) rotate(2deg) scale(1.02);
+        }
+    }
+
+    section {
+        padding: 42px 5%;
+    }
+
+    h2 {
+        font-size: clamp(27px, 7.5vw, 36px);
+        line-height: 1.15;
+        letter-spacing: -0.6px;
+    }
+
+    .intro {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    /* Story cards stack neatly */
+    .story-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .story-card {
+        padding: 20px;
+    }
+
+    /* Two KPI cards per row */
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .kpi {
+        min-width: 0;
+        padding: 15px 12px;
+        border-radius: 8px;
+    }
+
+    .kpi small {
+        display: block;
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+    .kpi h3 {
+        font-size: clamp(18px, 5vw, 24px);
+        overflow-wrap: anywhere;
+    }
+
+    /* One readable chart per row */
+    .chart-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 15px;
+    }
+
+    .chart-card,
+    .chart-card[style*="grid-column:1/-1"] {
+        grid-column: 1 / -1 !important;
+        min-width: 0;
+        padding: 16px;
+    }
+
+    .chart-card h3 {
+        font-size: 16px;
+        line-height: 1.4;
+    }
+
+    .chart-wrap {
+        height: 240px;
+        width: 100%;
+    }
+
+    /* Show chart explanations without requiring a hover */
+    .chart-explanation {
+        max-height: none;
+        opacity: 1;
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    /* Easy-to-use filters and buttons */
+    .filter-panel,
+    .detail-panel {
+        padding: 16px;
+    }
+
+    .filter-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .filter-field select,
+    .filter-field input {
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    .action-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .action-btn {
+        min-height: 44px;
+        width: 100%;
+    }
+
+    .insight-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .detail-panel h2 {
+        font-size: 25px !important;
+    }
+
+    .table-scroll {
+        max-width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    footer {
+        padding: 25px 5%;
+        overflow-wrap: anywhere;
+    }
+}
+
+/* Extra-small phones */
+@media (max-width: 360px) {
+    .kpi-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    .chart-wrap {
+        height: 220px;
+    }
+
+    nav a {
+        font-size: 10px;
+    }
+}
+
+/* Respect accessibility settings for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .rotating-shoe {
+        animation: none !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
     </style>
 </head>
 
