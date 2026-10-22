@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADIDAS | The Rise, The Setback & The Comeback</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --black: #101010;
+            --white: #ffffff;
+            --green: #c8ff00;
+            --grey: #777777;
+            --light: #f4f4f0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--light);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        nav {
+            background: var(--black);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 7%;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo { font-size: 25px; font-weight: 900; letter-spacing: 3px; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 13px; }
+
+        .hero {
+            background: var(--black);
+            color: white;
+            padding: 95px 8% 105px;
+            min-height: 480px;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content { max-width: 850px; }
+
+        .eyebrow {
+            color: var(--green);
+            letter-spacing: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(42px, 8vw, 86px);
+            line-height: 0.98;
+            letter-spacing: -4px;
+            margin-bottom: 25px;
+        }
+
+        h1 span { color: var(--green); }
+        .hero p { max-width: 600px; color: #cccccc; font-size: 17px; }
+
+        .button {
+            display: inline-block;
+            background: var(--green);
+            color: black;
+            padding: 13px 22px;
+            margin-top: 28px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+
+        section { padding: 70px 7%; }
+        .section-label { color: #647600; font-size: 12px; letter-spacing: 2px; font-weight: bold; }
+        h2 { font-size: clamp(30px, 4vw, 44px); margin: 8px 0 15px; letter-spacing: -1px; }
+        .intro { max-width: 700px; color: #626262; margin-bottom: 30px; }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .kpi {
+            background: linear-gradient(145deg, #ffffff, #f7f8ff);
+            padding: 25px;
+            border: 1px solid #e5e5e5;
+            border-left: 5px solid #6c63ff;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(26, 32, 44, 0.05);
+        }
+        .kpi:nth-child(2) { border-left-color: #00b8a9; }
+        .kpi:nth-child(3) { border-left-color: #ff8a3d; }
+        .kpi:nth-child(4) { border-left-color: #e84a8a; }
+
+        .kpi small { color: var(--grey); }
+        .kpi h3 { font-size: 27px; margin: 8px 0; }
+        .kpi p { color: #777; font-size: 12px; }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 22px;
+            margin-top: 28px;
+        }
+
+        .chart-card {
+            background: linear-gradient(145deg, #ffffff 0%, #fbfcff 100%);
+            border: 1px solid #e5e5e5;
+            border-top: 4px solid #6c63ff;
+            border-radius: 12px;
+            padding: 22px;
+            min-width: 0;
+            box-shadow: 0 8px 24px rgba(26, 32, 44, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .chart-card:nth-child(5n+2) { border-top-color: #00b8a9; }
+        .chart-card:nth-child(5n+3) { border-top-color: #ff8a3d; }
+        .chart-card:nth-child(5n+4) { border-top-color: #e84a8a; }
+        .chart-card:nth-child(5n+5) { border-top-color: #4385f5; }
+        .chart-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(26, 32, 44, 0.10); }
+        .chart-card h3 { margin-bottom: 16px; }
+        .chart-wrap { position: relative; height: 300px; }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .story-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            border-top: 4px solid var(--green);
+        }
+
+        .story-card .year { font-size: 13px; color: #647600; font-weight: bold; }
+        .story-card h3 { margin: 10px 0; }
+
+        .dark-section { background: var(--black); color: white; }
+        .dark-section .intro { color: #bbbbbb; }
+
+        .insight {
+            background: #1c1c1c;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            color: #dddddd;
+        }
+
+        footer {
+            background: #080808;
+            color: #aaaaaa;
+            padding: 30px 7%;
+            font-size: 12px;
+        }
+
+        footer a { color: var(--green); }
+
+        @media (max-width: 650px) {
+            nav { align-items: flex-start; gap: 12px; flex-direction: column; }
+            nav a { margin: 0 12px 0 0; }
+            .hero { padding: 65px 7%; }
+            h1 { letter-spacing: -2px; }
+            section { padding: 50px 6%; }
+        }
+
+
+        /* Added only: rotating shoe in the hero section */
+        .hero { position: relative; overflow: hidden; }
+        .hero-content { position: relative; z-index: 2; }
+        .rotating-shoe {
+            position: absolute;
+            z-index: 1;
+            right: 2%;
+            top: 50%;
+            width: min(46%, 560px);
+            height: auto;
+            transform: translateY(-50%);
+            transform-style: preserve-3d;
+            pointer-events: none;
+            opacity: 0.82;
+            animation: adidasShoeRotation 8s ease-in-out infinite;
+        }
+        @keyframes adidasShoeRotation {
+            0%, 100% { transform: translateY(-50%) perspective(1000px) rotateY(-18deg) rotateZ(-4deg); }
+            50% { transform: translateY(-50%) perspective(1000px) rotateY(18deg) rotateZ(4deg); }
+        }
+        @media (max-width: 650px) {
+            .rotating-shoe { width: 65%; right: -8%; top: 70%; opacity: 0.32; }
+        }
+
+        /* Interactive analytics additions: keep the existing visual identity. */
+        .filter-panel { background: linear-gradient(135deg,#fff 0%,#f4f2ff 55%,#effffc 100%); border:1px solid #deddf7; border-radius:14px; padding:22px; margin:22px 0 28px; box-shadow:0 8px 22px rgba(26,32,44,.06); }
+        .filter-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:14px; margin-top:15px; }
+        .filter-field label { display:block; font-size:12px; font-weight:800; color:#51516b; margin-bottom:6px; }
+        .filter-field select,.filter-field input { width:100%; padding:11px 12px; border:1px solid #d6d6e5; border-radius:8px; background:#fff; color:#202033; font:inherit; }
+        .action-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+        .action-btn { border:0; border-radius:8px; padding:11px 16px; background:#6c63ff; color:#fff; font-weight:800; cursor:pointer; }
+        .action-btn.alt { background:#00a995; } .action-btn.dark { background:#171717; } .action-btn:hover { filter:brightness(.93); transform:translateY(-1px); }
+        .small-note { font-size:12px; color:#656579; margin-top:10px; }
+        .insight-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-top:20px; }
+        .auto-insight { padding:18px; border-radius:10px; background:#fff; color:#25253b; border-left:5px solid #6c63ff; box-shadow:0 5px 16px rgba(0,0,0,.05); }
+        .auto-insight:nth-child(3n+2) { border-left-color:#00b8a9; } .auto-insight:nth-child(3n) { border-left-color:#ff8a3d; }
+        .detail-panel { margin-top:30px; padding:22px; border-radius:12px; background:#fff; border:1px solid #e3e3ed; box-shadow:0 8px 22px rgba(26,32,44,.05); }
+        .table-scroll { overflow:auto; max-height:470px; border:1px solid #ececf2; border-radius:8px; margin-top:14px; }
+        .detail-table { width:100%; border-collapse:collapse; font-size:12px; white-space:nowrap; }
+        .detail-table th { position:sticky; top:0; background:#171717; color:#fff; text-align:left; padding:10px; }
+        .detail-table td { padding:9px 10px; border-bottom:1px solid #ededf2; }
+        .detail-table tr:nth-child(even) td { background:#f8f8fc; }
+        /* Hover/focus explanations: explain the calculation and current finding for every chart. */
+        .chart-card { position: relative; }
+        .chart-explanation {
+            margin-top: 12px;
+            padding: 0 12px;
+            border-left: 3px solid #c8ff00;
+            border-radius: 0 7px 7px 0;
+            background: #f7f8ef;
+            color: #343434;
+            font-size: 12px;
+            line-height: 1.55;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height .28s ease, opacity .22s ease, padding .22s ease;
+        }
+        .chart-card:hover .chart-explanation,
+        .chart-card:focus-within .chart-explanation {
+            max-height: 150px;
+            opacity: 1;
+            padding: 10px 12px;
+        }
+        .chart-explanation strong { color: #202020; }
+        @media (max-width: 650px) {
+            /* Touchscreens have no hover: keep the explanations readable. */
+            .chart-explanation { max-height: 150px; opacity: 1; padding: 10px 12px; }
+        }
+        .alert { border-left-color:#e84a8a; } .alert.good { border-left-color:#00b8a9; }
+        @media print { nav,.hero,.filter-panel,.action-row,footer,.small-note { display:none !important; } body { background:#fff; } section { padding:18px 3%; break-inside:avoid; } .chart-card,.kpi { box-shadow:none; break-inside:avoid; } .table-scroll { max-height:none; overflow:visible; } }
+
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">adidas.</div>
+    <div>
+        <a href="#story">THE STORY</a>
+        <a href="#dashboard">SALES DATA</a>
+        <a href="#insights">INSIGHTS</a>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="hero-content">
+        <div class="eyebrow">A BRAND. A CHALLENGE. A COMEBACK.</div>
+        <h1>THE RISE.<br>THE SETBACK.<br><span>THE COMEBACK.</span></h1>
+        <p>
+            <br>
+            <b>Why This Project?</b>
+<br>
+            Adidas is more than a sportswear brand — it is a story of innovation, challenges, and comeback. This project explores Adidas’ US sales data to uncover meaningful insights into                  product performance, customer purchasing patterns, retailer contributions, and profitability. By transforming raw sales data into interactive visualizations and actionable insights, this project demonstrates how data analytics can help businesses make smarter decisions and drive growth.
+        </p>
+        <a class="button" href="#dashboard">EXPLORE THE DATA ↘</a>
+    </div>
+
+    <!-- Added only: decorative shoe that rotates continuously -->
+    <svg class="rotating-shoe" viewBox="0 0 620 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rotating athletic shoe illustration">
+        <defs>
+            <linearGradient id="shoeUpper" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffffff"/>
+                <stop offset="1" stop-color="#bdbdbd"/>
+            </linearGradient>
+            <linearGradient id="shoeSole" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#c8ff00"/>
+                <stop offset="1" stop-color="#82a600"/>
+            </linearGradient>
+        </defs>
+        <ellipse cx="315" cy="290" rx="235" ry="24" fill="#000000" opacity="0.35"/>
+        <g transform="rotate(-8 310 190)">
+            <path d="M88 218 C123 207 157 184 185 145 L221 96 C233 81 253 82 267 98 L322 156 C350 179 400 188 446 203 L511 225 C535 233 551 250 549 268 C547 282 531 289 507 290 L142 290 C108 290 80 278 76 257 C73 240 77 226 88 218Z" fill="url(#shoeUpper)" stroke="#eeeeee" stroke-width="5"/>
+            <path d="M79 254 C167 267 269 267 367 263 C440 260 502 259 548 266 C548 283 530 293 505 294 L142 294 C108 294 81 281 79 264Z" fill="url(#shoeSole)" stroke="#c8ff00" stroke-width="4"/>
+            <path d="M186 147 C223 170 264 187 307 195 L347 202" fill="none" stroke="#777777" stroke-width="7" stroke-linecap="round"/>
+            <path d="M219 111 L273 167 M239 103 L292 160 M260 108 L309 164" stroke="#101010" stroke-width="10" stroke-linecap="round"/>
+            <path d="M213 151 L296 177 M202 167 L285 193 M190 183 L271 208" stroke="#777777" stroke-width="5" stroke-linecap="round"/>
+            <path d="M337 181 C374 196 408 205 450 220" fill="none" stroke="#101010" stroke-width="5" opacity="0.8"/>
+            <path d="M127 226 C168 238 207 241 251 241" fill="none" stroke="#777777" stroke-width="4" opacity="0.65"/>
+            <path d="M355 228 L381 251 L406 226 L431 250 L456 230" fill="none" stroke="#101010" stroke-width="8" stroke-linejoin="round"/>
+            <path d="M111 274 L144 274 M166 278 L199 278 M221 278 L254 278 M276 278 L309 278 M331 276 L364 276 M386 274 L419 274 M441 272 L474 272" stroke="#101010" stroke-width="3" opacity="0.55"/>
+        </g>
+    </svg>
+</header>
+
+<section id="story">
+    <div class="section-label">01 / THE BRAND JOURNEY</div>
+    <h2>Every giant has a story.</h2>
+    <p class="intro">
+        From a small sports-shoe business to a global sportswear brand,
+        Adidas has continually adapted to athletes, culture, competition,
+        and changing consumer demand.
+    </p>
+
+    <div class="story-grid">
+        <article class="story-card">
+            <div class="year">1949</div>
+            <h3>The Beginning</h3>
+            <p>Adolf Dassler founded Adidas in Germany, building on his
+            experience making sports footwear.</p>
+        </article>
+
+        <article class="story-card">
+            <div class="year">GLOBAL EXPANSION</div>
+            <h3>From Sport to Culture</h3>
+            <p>Adidas grew across footwear, apparel, and accessories,
+            becoming part of both sporting and streetwear culture.</p>
+        </article>
+
+        <article class="story-card">
+            <div class="year">2022–2023</div>
+            <h3>A Difficult Turning Point</h3>
+            <p>The end of the Yeezy partnership created a major business
+            challenge, alongside broader market pressures.</p>
+        </article>
+
+        <article class="story-card">
+            <div class="year">2024–2025</div>
+            <h3>Recovery and Growth</h3>
+            <p>Official financial reports show Adidas Group net sales
+            rising in 2024 and again in 2025.</p>
+        </article>
+    </div>
+
+    <p class="intro" style="margin-top:20px">
+        Historical context:
+        <a href="https://www.adidas-group.com/en/about"
+           target="_blank" rel="noopener">Adidas official website</a>
+        ·
+        <a href="https://report.adidas-group.com/2025/en/additional-information.html"
+           target="_blank" rel="noopener">Official 10-year financial overview</a>
+    </p>
+</section>
+
+<section id="dashboard">
+    <div class="section-label">02 / BUSINESS INTELLIGENCE</div>
+    <h2>Numbers tell another story.</h2>
+    <p class="intro">
+        Analyse the Adidas US retail sales dataset. The dashboard will
+        read results generated by our Python analysis rather than
+        inventing sales figures.
+    </p>
+
+    <div id="status" role="status" aria-live="polite">
+        Loading your analysis files...
+    </div>
+
+    <div class="filter-panel" id="filterPanel">
+        <div class="section-label">LIVE FILTERS / SHARED ACROSS ALL ANALYTICS</div>
+        <h3 style="margin-top:5px">Explore a slice of the business</h3>
+        <p class="small-note">Every KPI, chart, insight, alert, drill-down, and export uses the same filters. Choose “All” to include every value.</p>
+        <div class="filter-grid">
+            <div class="filter-field"><label for="filterStart">Start date</label><input type="date" id="filterStart"></div>
+            <div class="filter-field"><label for="filterEnd">End date</label><input type="date" id="filterEnd"></div>
+            <div class="filter-field"><label for="filterRegion">Region</label><select id="filterRegion"><option value="">All regions</option></select></div>
+            <div class="filter-field"><label for="filterRetailer">Retailer</label><select id="filterRetailer"><option value="">All retailers</option></select></div>
+            <div class="filter-field"><label for="filterProduct">Product</label><select id="filterProduct"><option value="">All products</option></select></div>
+            <div class="filter-field"><label for="filterMethod">Sales method</label><select id="filterMethod"><option value="">All methods</option></select></div>
+        </div>
+        <div class="action-row">
+            <button class="action-btn" id="applyFilters" type="button">Apply filters</button>
+            <button class="action-btn alt" id="resetFilters" type="button">Reset all filters</button>
+            <button class="action-btn dark" id="exportCsv" type="button">Export filtered CSV</button>
+            <button class="action-btn dark" id="printReport" type="button">Print / Save executive report</button>
+        </div>
+        <p class="small-note" id="filterSummary">Preparing the transaction-level dataset…</p>
+    </div>
+
+    <div class="kpi-grid">
+        <div class="kpi">
+            <small>Total Retail Sales</small>
+            <h3 id="totalSales">Loading...</h3>
+            <p>US retail dataset</p>
+        </div>
+        <div class="kpi">
+            <small>Operating Profit</small>
+            <h3 id="totalProfit">Loading...</h3>
+            <p>Reported in dataset</p>
+        </div>
+        <div class="kpi">
+            <small>Units Sold</small>
+            <h3 id="totalUnits">Loading...</h3>
+            <p>Total recorded units</p>
+        </div>
+        <div class="kpi">
+            <small>Average Operating Margin</small>
+            <h3 id="avgMargin">Loading...</h3>
+            <p>Mean of row-level margins</p>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        <div class="chart-card">
+            <h3>Sales by Product</h3>
+            <div class="chart-wrap"><canvas id="productChart" aria-label="Interactive chart: product" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-productChart" tabindex="0">This chart groups the currently filtered transactions by product and adds their Total Sales. Hover over a bar to inspect its value; click a bar to filter the dashboard to that product.</p>
+        </div>
+
+        <div class="chart-card">
+            <h3>Sales by Region</h3>
+            <div class="chart-wrap"><canvas id="regionChart" aria-label="Interactive chart: region" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-regionChart" tabindex="0">This chart adds Total Sales within each region and compares each region’s share of the filtered total. The slices describe this dataset only, not the whole Adidas global business.</p>
+        </div>
+
+        <div class="chart-card">
+            <h3>Sales by Retailer</h3>
+            <div class="chart-wrap"><canvas id="retailerChart" aria-label="Interactive chart: retailer" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-retailerChart" tabindex="0">This chart groups filtered transactions by retailer and sums Total Sales. Click a retailer bar to filter the dashboard and inspect its matching transactions.</p>
+        </div>
+
+        <div class="chart-card">
+            <h3>Sales by Sales Method</h3>
+            <div class="chart-wrap"><canvas id="methodChart" aria-label="Interactive chart: method" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-methodChart" tabindex="0">This chart compares the sum of Total Sales across the available sales methods. It shows revenue mix, not channel costs or customer preferences.</p>
+        </div>
+
+        <div class="chart-card" style="grid-column:1/-1">
+            <h3>Monthly Sales Trend</h3>
+            <div class="chart-wrap"><canvas id="monthlyChart" aria-label="Interactive chart: monthly" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-monthlyChart" tabindex="0">This chart groups transactions by invoice month and sums Total Sales. Month-to-month movement can highlight changing sales, but it does not explain the cause.</p>
+        </div>
+    </div>
+
+
+    <!-- Added: advanced analytics charts. Existing dashboard and shoe animation are preserved. -->
+    <div class="section-label" style="margin-top:55px">ADVANCED ANALYTICS</div>
+    <h2>Beyond the sales total.</h2>
+    <p class="intro">
+        Explore profitability, month-to-month growth, product pricing, and a six-month baseline forecast.
+        These charts are generated from the same cleaned dataset by sales_analysis.py.
+    </p>
+    <div class="chart-grid">
+        <div class="chart-card">
+            <h3>Operating Profit by Product</h3>
+            <div class="chart-wrap"><canvas id="profitProductChart" aria-label="Interactive chart: profitProduct" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-profitProductChart" tabindex="0">This chart groups filtered transactions by product and sums Operating Profit. Negative values, if present, indicate a loss in the recorded operating-profit field. Click a bar to inspect that product.</p>
+        </div>
+        <div class="chart-card">
+            <h3>Monthly Profit Trend</h3>
+            <div class="chart-wrap"><canvas id="monthlyProfitChart" aria-label="Interactive chart: monthlyProfit" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-monthlyProfitChart" tabindex="0">This chart groups transactions by invoice month and sums Operating Profit. Compare its shape with monthly sales to see whether profit moves in the same direction as revenue.</p>
+        </div>
+        <div class="chart-card">
+            <h3>Month-over-Month Sales Growth (%)</h3>
+            <div class="chart-wrap"><canvas id="growthChart" aria-label="Interactive chart: growth" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-growthChart" tabindex="0">This chart calculates month-over-month sales growth as (current month sales − previous month sales) ÷ previous month sales × 100. Positive bars mean growth; negative bars mean decline.</p>
+        </div>
+        <div class="chart-card">
+            <h3>Average Unit Price by Product</h3>
+            <div class="chart-wrap"><canvas id="pricingChart" aria-label="Interactive chart: pricing" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-pricingChart" tabindex="0">This chart calculates the average recorded Price per Unit for each product in the filtered transactions. It does not measure discounts or prove that price caused a change in demand.</p>
+        </div>
+        <div class="chart-card" style="grid-column:1/-1">
+            <h3>Historical Sales and Six-Month Baseline Forecast</h3>
+            <div class="chart-wrap"><canvas id="forecastChart" aria-label="Interactive chart: forecast" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-forecastChart" tabindex="0">This chart fits a straight-line trend to the filtered historical monthly sales and extends it six months. The forecast is a simple baseline, not a seasonal model or a guaranteed prediction.</p>
+        </div>
+
+        <div class="chart-card">
+            <h3>Sales vs. Operating Profit</h3>
+            <div class="chart-wrap"><canvas id="salesProfitScatter" aria-label="Interactive chart: salesProfitscatter plot" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-salesProfitScatter" tabindex="0">Each displayed point represents a sampled filtered transaction, with Total Sales on the x-axis and Operating Profit on the y-axis. The relationship is descriptive and does not establish causation.</p>
+            <p class="small-note">Each point represents one transaction. Correlation is descriptive, not proof of causation.</p>
+        </div>
+        <div class="chart-card">
+            <h3>Unit Price vs. Units Sold</h3>
+            <div class="chart-wrap"><canvas id="priceUnitsScatter" aria-label="Interactive chart: priceUnitsscatter plot" role="img"></canvas></div>
+            <p class="chart-explanation" id="explain-priceUnitsScatter" tabindex="0">Each displayed point represents a sampled filtered transaction, with Price per Unit on the x-axis and Units Sold on the y-axis. This can show association, but it does not independently estimate price elasticity.</p>
+            <p class="small-note">Shows the relationship in the filtered transaction records; it does not establish price elasticity on its own.</p>
+        </div>
+    </div>
+    <div class="insight" style="margin-top:22px">
+        <strong>How to interpret these analyses</strong><br>
+        Growth compares each month with the previous month. Anomaly flags use an interquartile-range rule and indicate unusual values, not necessarily errors. The forecast is a simple linear trend and should be treated as a baseline, not a promise. This dataset has no discount column, so discount impact cannot be measured directly.
+    </div>
+
+
+    <div class="detail-panel" id="autoInsightsPanel">
+        <div class="section-label">DATA-DRIVEN FINDINGS</div>
+        <h2 style="font-size:30px">Automatic insights & business alerts</h2>
+        <p class="intro">Findings below are recalculated from the filtered records. They describe patterns in this dataset and do not claim to prove their causes.</p>
+        <div class="insight-grid" id="autoInsights"><div class="auto-insight">Waiting for data…</div></div>
+    </div>
+
+    <div class="detail-panel" id="drilldownPanel">
+        <div class="section-label">CLICK A PRODUCT OR RETAILER BAR TO FILTER</div>
+        <h2 style="font-size:30px">Transaction drill-down</h2>
+        <p class="intro" id="detailCaption">The table displays up to 100 matching transactions. The CSV export button exports all matching filtered records, not just the visible rows.</p>
+        <div class="table-scroll">
+            <table class="detail-table">
+                <thead><tr><th>Date</th><th>Product</th><th>Retailer</th><th>Region</th><th>Method</th><th>Unit price</th><th>Units</th><th>Sales</th><th>Operating profit</th><th>Margin</th></tr></thead>
+                <tbody id="detailRows"><tr><td colspan="10">Waiting for the transaction dataset…</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+<section id="insights" class="dark-section">
+    <div class="section-label">03 / FROM DATA TO DECISIONS</div>
+    <h2>What can the data teach us?</h2>
+    <p class="intro">
+        Business analytics helps transform raw transactions into
+        decisions about products, retail partnerships, geography,
+        sales channels, and inventory planning.
+    </p>
+
+    <div class="insight">
+        <strong>Product strategy</strong><br>
+        Compare revenue, units sold, and profit to understand which
+        products contribute most to retail performance.
+    </div>
+
+    <div class="insight">
+        <strong>Regional strategy</strong><br>
+        Identify regions with higher recorded sales and investigate
+        possible differences in demand and distribution.
+    </div>
+
+    <div class="insight">
+        <strong>Channel strategy</strong><br>
+        Compare online, outlet, and in-store sales using the data.
+        Revenue alone does not explain customer behaviour or costs.
+    </div>
+
+    <div class="insight">
+        <strong>Important limitation</strong><br>
+        This dataset represents US retail transactions from a limited
+        period. It cannot independently prove why Adidas rose or fell
+        globally. Historical explanations require separate evidence.
+    </div>
+</section>
+
+<footer>
+    <p><strong>ADIDAS: THE RISE, THE SETBACK & THE COMEBACK</strong></p>
+    <p>Student business intelligence project using Python, Pandas,
+    SQL, HTML, CSS, JavaScript, and Chart.js.</p>
+    <p>Retail data source:
+        <a href="https://www.kaggle.com/datasets/heemalichaudhari/adidas-sales-dataset"
+           target="_blank" rel="noopener">Adidas US Sales Dataset on Kaggle</a>.
+    </p>
+    <p>Corporate financial data:
+        <a href="https://www.adidas-group.com/en/investors/financial-reports"
+           target="_blank" rel="noopener">Adidas official financial reports</a>.
+    </p>
+    <p style="margin-top:12px">An independent educational project; not affiliated with Adidas.</p>
+</footer>
+
+<script>
+(() => {
+    "use strict";
+    const DATA_URL = "../analysis/dashboard_records.csv";
+    const money = value => "$" + Number(value || 0).toLocaleString("en-US", {maximumFractionDigits: 0});
+    const number = value => Number(value || 0);
+    const palette = ["#6C63FF", "#00B8A9", "#FF8A3D", "#E84A8A", "#4385F5", "#F4C542", "#8E5EA2", "#20A4F3", "#7CB342", "#F06292"];
+    const chartIds = ["productChart","regionChart","retailerChart","methodChart","monthlyChart","profitProductChart","monthlyProfitChart","growthChart","pricingChart","forecastChart","salesProfitScatter","priceUnitsScatter"];
+    let allRows = [], filteredRows = [], charts = {}, clickedDimension = "", clickedValue = "";
+
+    function parseCSV(text) {
+        const rows = []; let row = [], value = "", quoted = false;
+        for (let i = 0; i < text.length; i++) {
+            const ch = text[i];
+            if (ch === '"' && quoted && text[i + 1] === '"') { value += '"'; i++; }
+            else if (ch === '"') quoted = !quoted;
+            else if (ch === "," && !quoted) { row.push(value); value = ""; }
+            else if ((ch === "\n" || ch === "\r") && !quoted) {
+                if (ch === "\r" && text[i + 1] === "\n") i++;
+                row.push(value); if (row.some(v => v !== "")) rows.push(row); row = []; value = "";
+            } else value += ch;
+        }
+        if (value.length || row.length) { row.push(value); rows.push(row); }
+        const headers = rows.shift() || [];
+        return rows.map(values => Object.fromEntries(headers.map((h, i) => [h, values[i] ?? ""])));
+    }
+    function escapeHtml(value) { return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
+    function avg(rows, field) { const values = rows.map(r => number(r[field])).filter(Number.isFinite); return values.length ? values.reduce((a,b)=>a+b,0)/values.length : 0; }
+    function sum(rows, field) { return rows.reduce((total, r) => total + number(r[field]), 0); }
+    function groupSum(rows, key, value) {
+        const map = new Map(); rows.forEach(r => { const k = r[key] || "Unknown"; map.set(k, (map.get(k) || 0) + number(r[value])); });
+        return [...map.entries()].map(([label, total]) => ({label, total})).sort((a,b)=>b.total-a.total);
+    }
+    function groupMonth(rows) {
+        const map = new Map(); rows.forEach(r => { const month = String(r["Invoice Date"] || "").slice(0,7); if (!month) return; const v = map.get(month) || {Month:month, Total_Sales:0, Total_Profit:0}; v.Total_Sales += number(r["Total Sales"]); v.Total_Profit += number(r["Operating Profit"]); map.set(month,v); });
+        return [...map.values()].sort((a,b)=>a.Month.localeCompare(b.Month));
+    }
+    function pearson(rows, xField, yField) {
+        const pairs = rows.map(r => [number(r[xField]), number(r[yField])]).filter(p => Number.isFinite(p[0]) && Number.isFinite(p[1]));
+        if (pairs.length < 2) return null;
+        const mx = pairs.reduce((s,p)=>s+p[0],0)/pairs.length, my = pairs.reduce((s,p)=>s+p[1],0)/pairs.length;
+        const num = pairs.reduce((s,p)=>s+(p[0]-mx)*(p[1]-my),0);
+        const dx = pairs.reduce((s,p)=>s+(p[0]-mx)**2,0), dy = pairs.reduce((s,p)=>s+(p[1]-my)**2,0);
+        return dx && dy ? num / Math.sqrt(dx*dy) : null;
+    }
+    function setOptions(id, values) {
+        const select = document.getElementById(id), current = select.value;
+        const label = select.options[0]?.textContent || "All";
+        select.innerHTML = "";
+        const first = document.createElement("option"); first.value = ""; first.textContent = label; select.appendChild(first);
+        [...new Set(values.filter(v => v !== "" && v != null))].sort((a,b)=>String(a).localeCompare(String(b))).forEach(v => { const o=document.createElement("option"); o.value=v; o.textContent=v; select.appendChild(o); });
+        if ([...select.options].some(o=>o.value===current)) select.value=current;
+    }
+    function fillFilters() {
+        setOptions("filterRegion", allRows.map(r=>r.Region));
+        setOptions("filterRetailer", allRows.map(r=>r.Retailer));
+        setOptions("filterProduct", allRows.map(r=>r.Product));
+        setOptions("filterMethod", allRows.map(r=>r["Sales Method"]));
+        const dates = allRows.map(r=>String(r["Invoice Date"]||"").slice(0,10)).filter(Boolean).sort();
+        if (dates.length) { document.getElementById("filterStart").min=dates[0]; document.getElementById("filterStart").max=dates[dates.length-1]; document.getElementById("filterEnd").min=dates[0]; document.getElementById("filterEnd").max=dates[dates.length-1]; }
+    }
+    function getFilteredRows() {
+        const start=document.getElementById("filterStart").value, end=document.getElementById("filterEnd").value;
+        const region=document.getElementById("filterRegion").value, retailer=document.getElementById("filterRetailer").value;
+        const product=document.getElementById("filterProduct").value, method=document.getElementById("filterMethod").value;
+        return allRows.filter(r => {
+            const date=String(r["Invoice Date"]||"").slice(0,10);
+            return (!start || date>=start) && (!end || date<=end) && (!region || r.Region===region) && (!retailer || r.Retailer===retailer) && (!product || r.Product===product) && (!method || r["Sales Method"]===method);
+        });
+    }
+    function makeChart(id, config) {
+        const canvas=document.getElementById(id); if (!canvas) return;
+        if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+        const isScatter=config.type==="scatter";
+        const common={responsive:true,maintainAspectRatio:false,animation:{duration:250},plugins:{legend:{display:["pie","doughnut"].includes(config.type) || config.showLegend===true,position:"bottom"},tooltip:{callbacks:{label:ctx=>config.tooltip ? config.tooltip(ctx) : `${ctx.dataset.label || config.label || "Value"}: ${money(isScatter ? ctx.raw.y : ctx.raw)}`}}}};
+        if (!isScatter && !["pie","doughnut"].includes(config.type)) {
+            common.indexAxis=config.indexAxis||"x";
+            const numericTick = v => config.percent ? `${Number(v).toFixed(1)}%` : (config.moneyAxis===false ? Number(v).toLocaleString() : money(v));
+            common.scales = config.indexAxis === "y" ? {
+                x:{beginAtZero:true,ticks:{callback:numericTick},grid:{color:"rgba(90,100,120,.10)"}},
+                y:{ticks:{color:"#555b6e"},grid:{display:false}}
+            } : {
+                x:{ticks:{color:"#555b6e"},grid:{display:false}},
+                y:{beginAtZero:config.type!=="line" || !config.percent,ticks:{callback:numericTick},grid:{color:"rgba(90,100,120,.10)"}}
+            };
+        }
+        if (isScatter) common.scales={x:{type:"linear",position:"bottom",title:{display:true,text:config.xTitle},ticks:{callback:v=>config.xMoney?money(v):v}},y:{title:{display:true,text:config.yTitle},ticks:{callback:v=>config.yMoney?money(v):v}}};
+        charts[id]=new Chart(canvas,{type:config.type,data:config.data,options:common});
+    }
+    function addDrilldown(id, dimension) {
+        const chart=charts[id]; if (!chart) return;
+        chart.options.onClick=(_event, elements) => {
+            if (!elements.length) return;
+            const value=chart.data.labels[elements[0].index];
+            const filterId=dimension==="Product"?"filterProduct":"filterRetailer";
+            document.getElementById(filterId).value=value;
+            clickedDimension=dimension; clickedValue=value;
+            renderAll(); document.getElementById("drilldownPanel").scrollIntoView({behavior:"smooth",block:"start"});
+        };
+        chart.update("none");
+    }
+    function renderKpis(rows) {
+        document.getElementById("totalSales").textContent=money(sum(rows,"Total Sales"));
+        document.getElementById("totalProfit").textContent=money(sum(rows,"Operating Profit"));
+        document.getElementById("totalUnits").textContent=sum(rows,"Units Sold").toLocaleString("en-US",{maximumFractionDigits:0});
+        document.getElementById("avgMargin").textContent=(avg(rows,"Operating Margin")*100).toFixed(2)+"%";
+        document.getElementById("filterSummary").textContent=`Showing ${rows.length.toLocaleString()} of ${allRows.length.toLocaleString()} transactions · Sales ${money(sum(rows,"Total Sales"))} · Profit ${money(sum(rows,"Operating Profit"))}`;
+    }
+    function renderCharts(rows) {
+        const products=groupSum(rows,"Product","Total Sales"), retailers=groupSum(rows,"Retailer","Total Sales"), regions=groupSum(rows,"Region","Total Sales"), methods=groupSum(rows,"Sales Method","Total Sales"), months=groupMonth(rows);
+        const productProfit=groupSum(rows,"Product","Operating Profit"), pricing=groupSum(rows,"Product","Price per Unit");
+        const priceAvg=rows.reduce((m,r)=>{const k=r.Product||"Unknown", o=m.get(k)||{s:0,n:0}; o.s+=number(r["Price per Unit"]);o.n++;m.set(k,o);return m;},new Map());
+        const prices=[...priceAvg.entries()].map(([label,o])=>({label,total:o.s/o.n})).sort((a,b)=>b.total-a.total);
+        makeChart("productChart",{type:"bar",indexAxis:"y",label:"Sales",data:{labels:products.map(x=>x.label),datasets:[{label:"Sales",data:products.map(x=>x.total),backgroundColor:products.map((_,i)=>palette[i%palette.length]),borderRadius:6}]}});
+        makeChart("regionChart",{type:"doughnut",data:{labels:regions.map(x=>x.label),datasets:[{label:"Regional sales",data:regions.map(x=>x.total),backgroundColor:regions.map((_,i)=>palette[i%palette.length]),borderColor:"#fff",borderWidth:2}]}});
+        makeChart("retailerChart",{type:"bar",indexAxis:"y",data:{labels:retailers.map(x=>x.label),datasets:[{label:"Sales",data:retailers.map(x=>x.total),backgroundColor:retailers.map((_,i)=>palette[(i+2)%palette.length]),borderRadius:6}]}});
+        makeChart("methodChart",{type:"pie",data:{labels:methods.map(x=>x.label),datasets:[{label:"Sales by method",data:methods.map(x=>x.total),backgroundColor:methods.map((_,i)=>palette[i%palette.length]),borderColor:"#fff",borderWidth:2}]}});
+        makeChart("monthlyChart",{type:"line",data:{labels:months.map(x=>x.Month),datasets:[{label:"Monthly sales",data:months.map(x=>x.Total_Sales),borderColor:"#4385F5",backgroundColor:"rgba(67,133,245,.15)",pointBackgroundColor:"#E84A8A",tension:.3,fill:true}]}});
+        makeChart("profitProductChart",{type:"bar",indexAxis:"y",data:{labels:productProfit.map(x=>x.label),datasets:[{label:"Operating profit",data:productProfit.map(x=>x.total),backgroundColor:productProfit.map((_,i)=>palette[(i+1)%palette.length]),borderRadius:6}]}});
+        makeChart("monthlyProfitChart",{type:"line",data:{labels:months.map(x=>x.Month),datasets:[{label:"Operating profit",data:months.map(x=>x.Total_Profit),borderColor:"#00B8A9",backgroundColor:"rgba(0,184,169,.14)",pointBackgroundColor:"#FF8A3D",tension:.3,fill:true}]}});
+        const growth=months.map((m,i)=>({Month:m.Month,growth:i?((m.Total_Sales-months[i-1].Total_Sales)/(months[i-1].Total_Sales||1))*100:null})).filter(x=>x.growth!==null&&Number.isFinite(x.growth));
+        makeChart("growthChart",{type:"bar",percent:true,moneyAxis:false,data:{labels:growth.map(x=>x.Month),datasets:[{label:"Sales growth (%)",data:growth.map(x=>x.growth),backgroundColor:growth.map(x=>x.growth>=0?"#00B8A9":"#E84A8A"),borderRadius:5}]}});
+        makeChart("pricingChart",{type:"bar",indexAxis:"y",data:{labels:prices.map(x=>x.label),datasets:[{label:"Average unit price",data:prices.map(x=>x.total),backgroundColor:prices.map((_,i)=>palette[(i+4)%palette.length]),borderRadius:6}]}});
+        const forecast=[]; if(months.length){const vals=months.map(m=>m.Total_Sales), n=vals.length, meanX=(n-1)/2, meanY=vals.reduce((a,b)=>a+b,0)/n;let num=0,den=0;vals.forEach((v,i)=>{num+=(i-meanX)*(v-meanY);den+=(i-meanX)**2;});const slope=den?num/den:0,intercept=meanY-slope*meanX;for(let i=0;i<6;i++){const parts=months[n-1].Month.split("-").map(Number);const d=new Date(Date.UTC(parts[0],parts[1]-1+i+1,1));forecast.push({month:d.toISOString().slice(0,7),value:Math.max(0,intercept+slope*(n+i))});}}
+        const forecastLabels=months.map(m=>m.Month).concat(forecast.map(f=>f.month));
+        makeChart("forecastChart",{type:"line",showLegend:true,data:{labels:forecastLabels,datasets:[{label:"Historical sales",data:months.map(m=>m.Total_Sales).concat(forecast.map(()=>null)),borderColor:"#6C63FF",backgroundColor:"rgba(108,99,255,.12)",pointBackgroundColor:"#6C63FF",tension:.3,fill:true,spanGaps:false},{label:"Six-month baseline forecast",data:months.map(()=>null).concat(forecast.map(f=>f.value)),borderColor:"#FF8A3D",backgroundColor:"rgba(255,138,61,.1)",borderDash:[7,5],pointBackgroundColor:"#FF8A3D",tension:.3,fill:false,spanGaps:false}]}});
+        // Plot at most 2,000 records for browser responsiveness; all records remain available for filters and export.
+        const step=Math.max(1,Math.ceil(rows.length/2000)), sample=rows.filter((_,i)=>i%step===0);
+        makeChart("salesProfitScatter",{type:"scatter",xTitle:"Total sales (USD)",yTitle:"Operating profit (USD)",xMoney:true,yMoney:true,data:{datasets:[{label:"Transactions (sampled for display)",data:sample.map(r=>({x:number(r["Total Sales"]),y:number(r["Operating Profit"])})),backgroundColor:"rgba(108,99,255,.55)",pointRadius:3}]},tooltip:ctx=>`Sales ${money(ctx.raw.x)} · Profit ${money(ctx.raw.y)}`});
+        makeChart("priceUnitsScatter",{type:"scatter",xTitle:"Price per unit (USD)",yTitle:"Units sold",xMoney:true,data:{datasets:[{label:"Transactions (sampled for display)",data:sample.map(r=>({x:number(r["Price per Unit"]),y:number(r["Units Sold"])})),backgroundColor:"rgba(0,184,169,.6)",pointRadius:3}]},tooltip:ctx=>`Price ${money(ctx.raw.x)} · Units ${Number(ctx.raw.y).toLocaleString()}`});
+        addDrilldown("productChart","Product"); addDrilldown("profitProductChart","Product"); addDrilldown("retailerChart","Retailer");
+    }
+    function renderInsights(rows) {
+        const box=document.getElementById("autoInsights"); if(!rows.length){box.innerHTML='<div class="auto-insight alert">No records match these filters. Reset or widen your filters.</div>';return;}
+        const products=groupSum(rows,"Product","Total Sales"), retailers=groupSum(rows,"Retailer","Operating Profit"), months=groupMonth(rows);
+        const margin=avg(rows,"Operating Margin")*100, negative=rows.filter(r=>number(r["Operating Profit"])<0).length;
+        const corr=pearson(rows,"Price per Unit","Units Sold"), latest=months[months.length-1], previous=months.length>1?months[months.length-2]:null;
+        const latestGrowth=latest&&previous&&previous.Total_Sales!==0?((latest.Total_Sales-previous.Total_Sales)/previous.Total_Sales)*100:null;
+        const sorted=months.map(m=>m.Total_Sales).sort((a,b)=>a-b), q1=sorted.length?sorted[Math.floor((sorted.length-1)*.25)]:0, q3=sorted.length?sorted[Math.floor((sorted.length-1)*.75)]:0, iqr=q3-q1;
+        const unusual=months.filter(m=>m.Total_Sales<q1-1.5*iqr||m.Total_Sales>q3+1.5*iqr);
+        const cards=[];
+        cards.push({title:"Top product by sales",text:products.length?`${products[0].label} leads the filtered records with ${money(products[0].total)} in sales.`:"Not enough product data.",cls:"good"});
+        cards.push({title:"Retailer profit leader",text:retailers.length?`${retailers[0].label} has the highest recorded operating profit: ${money(retailers[0].total)}.`:"Not enough retailer data.",cls:"good"});
+        cards.push({title:"Average operating margin",text:`The mean row-level operating margin is ${margin.toFixed(2)}% across ${rows.length.toLocaleString()} matching transactions.`,cls:margin<0?"alert":""});
+        cards.push({title:"Profitability alert",text:negative?`${negative.toLocaleString()} transactions (${(negative/rows.length*100).toFixed(1)}%) have negative operating profit. Review these records.`:"No negative-profit transactions are present in the current filter.",cls:negative?"alert":"good"});
+        cards.push({title:"Recent monthly sales movement",text:latestGrowth===null?"At least two months are needed to calculate month-over-month growth.":`Latest available month (${latest.Month}) changed ${latestGrowth>=0?"up":"down"} ${Math.abs(latestGrowth).toFixed(1)}% versus ${previous.Month}.`,cls:latestGrowth!==null&&latestGrowth<0?"alert":""});
+        cards.push({title:"Price and units relationship",text:corr===null?"Insufficient variation to calculate a price/volume correlation.":`Pearson correlation between unit price and units sold is ${corr.toFixed(3)} (${corr>0.2?"positive":corr< -0.2?"negative":"weak"} linear association). This does not prove causation.`,cls:""});
+        cards.push({title:"Unusual monthly sales",text:unusual.length?`${unusual.map(m=>m.Month).join(", ")} fall outside the 1.5×IQR range. These are flags to investigate, not confirmed errors.`:"No monthly sales values are outside the current 1.5×IQR thresholds.",cls:unusual.length?"alert":"good"});
+        box.innerHTML=cards.map(c=>`<div class="auto-insight ${c.cls||""}"><strong>${escapeHtml(c.title)}</strong><p style="margin-top:8px">${escapeHtml(c.text)}</p></div>`).join("");
+    }
+    function renderTable(rows) {
+        const tbody=document.getElementById("detailRows"), visible=rows.slice(0,100);
+        document.getElementById("detailCaption").textContent=`${rows.length.toLocaleString()} matching transactions. Showing the first ${visible.length.toLocaleString()} rows; “Export filtered CSV” downloads all ${rows.length.toLocaleString()} matching records.`;
+        if(!visible.length){tbody.innerHTML='<tr><td colspan="10">No records match the selected filters.</td></tr>';return;}
+        tbody.innerHTML=visible.map(r=>`<tr><td>${escapeHtml(String(r["Invoice Date"]||"").slice(0,10))}</td><td>${escapeHtml(r.Product)}</td><td>${escapeHtml(r.Retailer)}</td><td>${escapeHtml(r.Region)}</td><td>${escapeHtml(r["Sales Method"])}</td><td>${money(r["Price per Unit"])}</td><td>${number(r["Units Sold"]).toLocaleString()}</td><td>${money(r["Total Sales"])}</td><td>${money(r["Operating Profit"])}</td><td>${(number(r["Operating Margin"])*100).toFixed(2)}%</td></tr>`).join("");
+    }
+    function updateChartExplanations(rows) {
+        const getTop = (key, value) => groupSum(rows, key, value)[0] || null;
+        const products = getTop("Product", "Total Sales");
+        const retailers = getTop("Retailer", "Total Sales");
+        const regions = getTop("Region", "Total Sales");
+        const methods = getTop("Sales Method", "Total Sales");
+        const profitProducts = getTop("Product", "Operating Profit");
+        const months = groupMonth(rows);
+        const moneyText = v => money(v);
+        const corrSalesProfit = pearson(rows, "Total Sales", "Operating Profit");
+        const corrPriceUnits = pearson(rows, "Price per Unit", "Units Sold");
+        const latest = months.length ? months[months.length - 1] : null;
+        const previous = months.length > 1 ? months[months.length - 2] : null;
+        const latestGrowth = latest && previous && previous.Total_Sales !== 0
+            ? ((latest.Total_Sales - previous.Total_Sales) / previous.Total_Sales) * 100 : null;
+        const avgPrices = new Map();
+        rows.forEach(r => {
+            const key = r.Product || "Unknown";
+            const item = avgPrices.get(key) || {sum: 0, count: 0};
+            const value = number(r["Price per Unit"]);
+            if (Number.isFinite(value)) { item.sum += value; item.count += 1; }
+            avgPrices.set(key, item);
+        });
+        const highestPrice = [...avgPrices.entries()].map(([label, v]) => ({label, value: v.count ? v.sum / v.count : 0})).sort((a,b) => b.value-a.value)[0];
+        const growthRows = months.slice(1).map((m,i) => ({month:m.Month, value: months[i].Total_Sales ? (m.Total_Sales-months[i].Total_Sales)/months[i].Total_Sales*100 : null})).filter(x => x.value !== null && Number.isFinite(x.value));
+        const strongestGrowth = [...growthRows].sort((a,b)=>b.value-a.value)[0];
+        const weakestGrowth = [...growthRows].sort((a,b)=>a.value-b.value)[0];
+        const descriptions = {
+            productChart: products ? `Calculation: sales were summed by product for ${rows.length.toLocaleString()} filtered transactions. Finding: ${products.label} is highest by sales at ${moneyText(products.total)}.` : "No matching product records are available for this filter.",
+            regionChart: regions ? `Calculation: sales were summed by region. Finding: ${regions.label} has the largest regional total at ${moneyText(regions.total)}. Slice size represents share of the filtered sales total.` : "No matching regional records are available for this filter.",
+            retailerChart: retailers ? `Calculation: sales were summed by retailer. Finding: ${retailers.label} leads the filtered records at ${moneyText(retailers.total)}. Click a bar to inspect its transactions.` : "No matching retailer records are available for this filter.",
+            methodChart: methods ? `Calculation: sales were summed by sales method. Finding: ${methods.label} is the largest method by recorded sales at ${moneyText(methods.total)}. This compares revenue, not profitability or channel costs.` : "No matching sales-method records are available for this filter.",
+            monthlyChart: latest ? `Calculation: Total Sales were summed by invoice month. Latest month in the filtered data: ${latest.Month} (${moneyText(latest.Total_Sales)}). ${latestGrowth === null ? "At least two months are needed to calculate growth." : `That is ${latestGrowth >= 0 ? "up" : "down"} ${Math.abs(latestGrowth).toFixed(1)}% versus ${previous.Month}.`}` : "No monthly sales records are available for this filter.",
+            profitProductChart: profitProducts ? `Calculation: Operating Profit was summed by product. Finding: ${profitProducts.label} has the highest recorded operating profit at ${moneyText(profitProducts.total)}. Click a bar to filter to that product.` : "No product profit records are available for this filter.",
+            monthlyProfitChart: latest ? `Calculation: Operating Profit was summed by invoice month. Latest month: ${latest.Month}, with ${moneyText(latest.Total_Profit)} recorded operating profit. Compare this with the sales trend to examine whether profit follows revenue.` : "No monthly profit records are available for this filter.",
+            growthChart: strongestGrowth ? `Calculation: month-over-month sales percentage change. Largest increase: ${strongestGrowth.month} (${strongestGrowth.value.toFixed(1)}%). ${weakestGrowth ? `Lowest change: ${weakestGrowth.month} (${weakestGrowth.value.toFixed(1)}%).` : ""} Growth is relative to the previous month, not year-over-year growth.` : "At least two months of filtered sales data are needed to calculate growth.",
+            pricingChart: highestPrice ? `Calculation: average Price per Unit by product. Highest average in the current filter: ${highestPrice.label} at ${moneyText(highestPrice.value)} per unit. The dataset has no discount field, so discount effects are not measured.` : "No unit-price records are available for this filter.",
+            forecastChart: months.length >= 2 ? `Calculation: a straight-line trend was fitted to ${months.length} filtered monthly sales totals and extended six months. Latest historical month: ${latest.Month} (${moneyText(latest.Total_Sales)}). Treat the projected line as a baseline estimate, not a promise.` : "At least two months are needed for a meaningful linear-trend baseline forecast.",
+            salesProfitScatter: corrSalesProfit === null ? "Calculation: each point plots transaction sales against operating profit. There is not enough variation in the filtered records to calculate correlation." : `Calculation: transaction sales and operating profit are plotted as points. Pearson correlation in the filtered data is ${corrSalesProfit.toFixed(3)} (${corrSalesProfit > .2 ? "positive" : corrSalesProfit < -.2 ? "negative" : "weak"} linear association). Points are sampled for display when the dataset is large; this does not prove causation.`,
+            priceUnitsScatter: corrPriceUnits === null ? "Calculation: each point plots unit price against units sold. There is not enough variation in the filtered records to calculate correlation." : `Calculation: unit price is compared with units sold per transaction. Pearson correlation is ${corrPriceUnits.toFixed(3)} (${corrPriceUnits > .2 ? "positive" : corrPriceUnits < -.2 ? "negative" : "weak"} linear association). This is not proof of price elasticity or causation.`
+        };
+        Object.entries(descriptions).forEach(([id, text]) => {
+            const element = document.getElementById("explain-" + id);
+            if (element) element.textContent = text;
+        });
+    }
+
+    function renderAll() {
+        filteredRows=getFilteredRows(); renderKpis(filteredRows); renderCharts(filteredRows); renderInsights(filteredRows); renderTable(filteredRows); updateChartExplanations(filteredRows);
+        document.getElementById("status").textContent=filteredRows.length?`Interactive dashboard ready · ${filteredRows.length.toLocaleString()} transactions match the current filters.`:"No transactions match the current filters.";
+    }
+    function downloadCSV(rows) {
+        if(!rows.length){alert("There are no filtered records to export.");return;}
+        const headers=Object.keys(rows[0]); const quote=v=>{const s=String(v??"");return /[",\r\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;};
+        const csv=[headers.map(quote).join(","),...rows.map(r=>headers.map(h=>quote(r[h])).join(","))].join("\r\n");
+        const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="adidas_filtered_sales.csv";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+    }
+    async function init() {
+        try {
+            const response=await fetch(DATA_URL);
+            if(!response.ok) throw new Error("dashboard_records.csv was not found. Run python sales_analysis.py from C:\\adidas and open the site through a local web server.");
+            allRows=parseCSV(await response.text()).filter(r=>r["Invoice Date"] && Number.isFinite(number(r["Total Sales"])) && Number.isFinite(number(r["Operating Profit"])));
+            if(!allRows.length) throw new Error("The transaction-level CSV contains no usable rows.");
+            fillFilters();
+            document.getElementById("applyFilters").addEventListener("click",()=>{clickedDimension="";clickedValue="";renderAll();});
+            document.getElementById("resetFilters").addEventListener("click",()=>{["filterStart","filterEnd","filterRegion","filterRetailer","filterProduct","filterMethod"].forEach(id=>document.getElementById(id).value="");clickedDimension="";clickedValue="";renderAll();});
+            ["filterStart","filterEnd","filterRegion","filterRetailer","filterProduct","filterMethod"].forEach(id=>document.getElementById(id).addEventListener("change",()=>{clickedDimension="";clickedValue="";renderAll();}));
+            document.getElementById("exportCsv").addEventListener("click",()=>downloadCSV(filteredRows));
+            document.getElementById("printReport").addEventListener("click",()=>window.print());
+            renderAll();
+        } catch(error) {
+            document.getElementById("status").textContent="Interactive dashboard could not load: "+error.message;
+            document.getElementById("filterSummary").textContent="Check that analysis/dashboard_records.csv exists and that the website is opened through a local server.";
+            document.getElementById("autoInsights").innerHTML='<div class="auto-insight alert">The interactive features need the transaction-level CSV. Run the updated Python script first.</div>';
+            document.getElementById("detailRows").innerHTML='<tr><td colspan="10">No transaction data loaded.</td></tr>';
+        }
+    }
+    init();
+})();
+</script>
+
+</body>
+</html>
