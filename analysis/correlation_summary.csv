@@ -1,0 +1,6 @@
+Variable_1,Variable_2,Pearson_Correlation,Records_Used
+Price per Unit,Units Sold,0.26586850381219673,9648
+Price per Unit,Total Sales,0.43581056457758993,9648
+Units Sold,Total Sales,0.9134314656070716,9648
+Total Sales,Operating Profit,0.9563074349716087,9648
+Operating Margin,Operating Profit,-0.21192043569361863,9648
